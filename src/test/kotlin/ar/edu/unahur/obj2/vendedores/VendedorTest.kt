@@ -14,9 +14,14 @@ class VendedorTest : DescribeSpec({
   val tokio = Provincia(9000000)
   val shinjuku = Ciudad(tokio)
 
+  val certificacionProducto = Certificacion(true, 9)
+  val certificacionNoProducto = Certificacion(false, 10)
+
   describe("Vendedor fijo") {
     val obera = Ciudad(misiones)
     val vendedorFijo = VendedorFijo(obera)
+    val vendedorFijo2 = VendedorFijo(obera)
+
 
     describe("puedeTrabajarEn") {
       it("su ciudad de origen") {
@@ -26,12 +31,35 @@ class VendedorTest : DescribeSpec({
         vendedorFijo.puedeTrabajarEn(sanIgnacio).shouldBeFalse()
       }
     }
-
     describe("esInfluyente"){
-      it("No lo es"){
+      it("vendedorFijo no es influyente"){
         vendedorFijo.esInfluyente().shouldBeFalse()
       }
     }
+    describe("esVersatil"){
+      vendedorFijo.agregarCertificacion(certificacionProducto)
+      vendedorFijo.agregarCertificacion(certificacionProducto)
+      vendedorFijo.agregarCertificacion((certificacionNoProducto))
+      vendedorFijo2.agregarCertificacion(certificacionNoProducto)
+      vendedorFijo2.agregarCertificacion(certificacionNoProducto)
+      vendedorFijo2.agregarCertificacion(certificacionNoProducto)
+      it("vendedorFijo tiene al menos 1 certificacion de producto y 1 de no producto, y al menos 3 certificaciones"){
+        vendedorFijo.esVersatil().shouldBeTrue()
+      }
+      it("vendedorFijo2 no tiene certificaciones de producto"){
+        vendedorFijo2.esVersatil().shouldBeFalse()
+      }
+    } //que tenga al menos tres certificaciones, que tenga al menos una sobre productos, y al menos una que no sea sobre productos.
+
+    describe("esFirme"){
+      it("vendedorFijo2 tiene un puntaje en certificaciones igual o mayor a 30"){
+        vendedorFijo2.esFirme().shouldBeTrue()
+      }
+      it("vendedorFijo no tiene un puntaje igual o mayor a 30 en certificaciones"){
+        vendedorFijo.esFirme().shouldBeFalse()
+      }
+    }
+
   }
 
   describe("Viajante") {
@@ -48,11 +76,35 @@ class VendedorTest : DescribeSpec({
     }
 
     describe("esInfluyente"){
-      it("tiene 10 millones de habitantes al menos"){
+      it("viajante2 es influyente"){
         viajante2.esInfluyente().shouldBeTrue()
       }
-      it("NO tiene mas de 10 millones de habitantes"){
+      it("viajante no es influyente"){
         viajante.esInfluyente().shouldBeFalse()
+      }
+    }
+
+    describe("esVersatil"){
+      viajante.agregarCertificacion(certificacionProducto)
+      viajante.agregarCertificacion(certificacionProducto)
+      viajante.agregarCertificacion((certificacionNoProducto))
+      viajante2.agregarCertificacion(certificacionNoProducto)
+      viajante2.agregarCertificacion(certificacionNoProducto)
+      viajante2.agregarCertificacion(certificacionNoProducto)
+      it("viajante es versatil"){
+        viajante.esVersatil().shouldBeTrue()
+      }
+      it("viajante2 no es versatil"){
+        viajante2.esVersatil().shouldBeFalse()
+      }
+    } //que tenga al menos tres certificaciones, que tenga al menos una sobre productos, y al menos una que no sea sobre productos.
+
+    describe("esFirme"){
+      it("viajante2 tiene un puntaje en certificaciones igual o mayor a 30"){
+        viajante2.esFirme().shouldBeTrue()
+      }
+      it("viajante no tiene un puntaje igual o mayor a 30 en certificaciones"){
+        viajante.esFirme().shouldBeFalse()
       }
     }
   }
@@ -70,23 +122,47 @@ class VendedorTest : DescribeSpec({
     val comercio2 = ComercioCorresponsal(listOf(ciudad1))
     val comercio3 = ComercioCorresponsal(listOf(ciudad1,ciudad6,ciudad7))
     describe("puedeTrabajarEn") {
-      it("tiene una sucursal en la ciudad"){
+      it("comercio1 tiene una sucursal en la ciudad ciudad3"){
         comercio1.puedeTrabajarEn(ciudad3).shouldBeTrue()
       }
-      it("NO tiene una sucursal en la ciudad"){
+      it("comercio1 no tiene una sucursal en la ciudad sanIgnacio"){
         comercio1.puedeTrabajarEn(sanIgnacio).shouldBeFalse()
       }
     }
 
     describe("esInfluyente"){
-      it("tiene al menos 5 sucursales"){
+      it("comercio1 tiene al menos 5 sucursales"){
         comercio1.esInfluyente().shouldBeTrue()
       }
-      it("tiene al menos 3 provincias diferentes"){
+      it("comercio3 tiene al menos 3 provincias diferentes"){
         comercio3.esInfluyente().shouldBeTrue()
       }
-      it("No tiene ni 5 sucursales"){
+      it("comercio2 no tiene ni 5 sucursales"){
         comercio2.esInfluyente().shouldBeFalse()
+      }
+    }
+
+    describe("esVersatil"){
+      comercio1.agregarCertificacion(certificacionProducto)
+      comercio1.agregarCertificacion(certificacionProducto)
+      comercio1.agregarCertificacion((certificacionNoProducto))
+      comercio2.agregarCertificacion(certificacionNoProducto)
+      comercio2.agregarCertificacion(certificacionNoProducto)
+      comercio2.agregarCertificacion(certificacionNoProducto)
+      it("comercio1 tiene al menos 1 certificacion de producto y 1 de no producto, y al menos 3 certificaciones"){
+        comercio1.esVersatil().shouldBeTrue()
+      }
+      it("comercio2 no tiene certificaciones de producto"){
+        comercio2.esVersatil().shouldBeFalse()
+      }
+    } //que tenga al menos tres certificaciones, que tenga al menos una sobre productos, y al menos una que no sea sobre productos.
+
+    describe("esFirme"){
+      it("comercio2 tiene un puntaje en certificaciones igual o mayor a 30"){
+        comercio2.esFirme().shouldBeTrue()
+      }
+      it("comercio1 no tiene un puntaje igual o mayor a 30 en certificaciones"){
+        comercio1.esFirme().shouldBeFalse()
       }
     }
   }
