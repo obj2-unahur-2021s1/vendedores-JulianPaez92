@@ -110,6 +110,7 @@ class VendedorTest : DescribeSpec({
   }
 
   describe("Comercio corresponsal") {
+    //ciudades
     val ciudad1 = Ciudad(misiones)
     val ciudad2 = Ciudad(misiones)
     val ciudad3 = Ciudad(misiones)
@@ -117,7 +118,7 @@ class VendedorTest : DescribeSpec({
     val ciudad5 = Ciudad(misiones)
     val ciudad6 = Ciudad(cordoba)
     val ciudad7 = Ciudad(tokio)
-
+    //comercios
     val comercio1 = ComercioCorresponsal(listOf(ciudad1,ciudad2,ciudad3,ciudad4,ciudad5))
     val comercio2 = ComercioCorresponsal(listOf(ciudad1))
     val comercio3 = ComercioCorresponsal(listOf(ciudad1,ciudad6,ciudad7))
@@ -129,7 +130,6 @@ class VendedorTest : DescribeSpec({
         comercio1.puedeTrabajarEn(sanIgnacio).shouldBeFalse()
       }
     }
-
     describe("esInfluyente"){
       it("comercio1 tiene al menos 5 sucursales"){
         comercio1.esInfluyente().shouldBeTrue()
@@ -141,7 +141,6 @@ class VendedorTest : DescribeSpec({
         comercio2.esInfluyente().shouldBeFalse()
       }
     }
-
     describe("esVersatil"){
       comercio1.agregarCertificacion(certificacionProducto)
       comercio1.agregarCertificacion(certificacionProducto)
@@ -155,8 +154,7 @@ class VendedorTest : DescribeSpec({
       it("comercio2 no tiene certificaciones de producto"){
         comercio2.esVersatil().shouldBeFalse()
       }
-    } //que tenga al menos tres certificaciones, que tenga al menos una sobre productos, y al menos una que no sea sobre productos.
-
+    }
     describe("esFirme"){
       it("comercio2 tiene un puntaje en certificaciones igual o mayor a 30"){
         comercio2.esFirme().shouldBeTrue()
