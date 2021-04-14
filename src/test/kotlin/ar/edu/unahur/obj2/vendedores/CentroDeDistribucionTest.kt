@@ -3,10 +3,9 @@ package ar.edu.unahur.obj2.vendedores
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.booleans.shouldBeTrue
-import io.kotest.matchers.collections.shouldBeIn
-import io.kotest.matchers.collections.shouldContain
-import io.kotest.matchers.collections.shouldContainAll
+import io.kotest.matchers.collections.*
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNot
 import io.kotest.matchers.shouldNotBe
 
 class CentroDeDistribucionTest : DescribeSpec({
@@ -63,7 +62,7 @@ class CentroDeDistribucionTest : DescribeSpec({
             centroDeDistribucion1.vendedoresGenericos().shouldContainAll(vendedor2,vendedor3)
         }
         it("vendedor1 no es vendedor generico"){
-            centroDeDistribucion1.vendedoresGenericos().shouldContain(vendedor1)
+            centroDeDistribucion1.vendedoresGenericos().shouldNotContain(vendedor1)
         }
     }
     describe("esRobusto"){
